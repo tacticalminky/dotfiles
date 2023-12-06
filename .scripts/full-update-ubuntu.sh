@@ -4,7 +4,7 @@
 
 sudo -v
 
-read -t 10 -p "Shutdown (Y/N): " confirm
+read -t 10 -p "Shutdown Afterwards (Y/N): " confirm
 
 if [[ "$confirm" = [yY] ]] || [[ "$confirm" = [yY][eE][sS] ]]
 then
@@ -19,12 +19,12 @@ sudo apt update && sudo apt autoremove --purge -y
 echo && echo
 echo 'Updating flatpak system packages'
 sudo flatpak upgrade -y
-sudo flatpak uninstall --unused
+sudo flatpak uninstall -y --unused 
 
 echo && echo
 echo 'Updating flatpak user packages'
 flatpak upgrade -y
-flatpak uninstall --unused
+flatpak uninstall -y --unused 
 
 if [[ "$confirm" = [yY] ]] || [[ "$confirm" = [yY][eE][sS] ]]
 then
