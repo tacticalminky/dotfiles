@@ -1,0 +1,18 @@
+# Ignore all files but specified
+*
+
+!README.md
+!.gitignore
+
+!.bashrc
+
+# Custom Scripts
+!.scripts
+!.scripts/**
+
+# Config files
+!.config/kitty
+!.config/kitty/**
+
+!.config/nvim
+!.config/nvim/**
