@@ -4,13 +4,9 @@
 sudo -v
 
 read -p """
-#####################################
-#                                   #
-# Please Select a Distrobution:     #
-#   1. Arch                         #
-#   2. PopOS!                       #
-#                                   #
-#####################################
+Please Select a Distrobution:
+    1. Arch
+    2. PopOS!
 Select: """ distro
 echo
 
@@ -25,13 +21,10 @@ read -p "Restart Afterwards (Y/N): " confirm_restart
 # echo 'Moving files into place'
 # cp -r home/* ~/
 
-echo """
-#####################################
-#                                   #
-# Creating new directories          #
-#                                   #
-#####################################
-"""
+#---------------------------------------------
+# Create new directories
+#---------------------------------------------
+echo && echo 'Creating directories: ~/workspace ~/games'
 workspace_directories=(
     ~/workspace
     ~/workspace/blender
@@ -47,9 +40,9 @@ game_directories=(
 )
 mkdir ${workspace_directories[*]} ${game_directories[*]}
 
-"""
-    Create lists of common packages
-"""
+#---------------------------------------------
+# Create lists of common packages
+#---------------------------------------------
 common_pkgs=()
 
 common_flatpak_pkgs=(
@@ -82,26 +75,35 @@ common_flatpak_pkgs=(
     com.github.johnfactotum.Foliate     # Foliate (ePub reader)
 )
 
+#---------------------------------------------
+# Arch specific packages and commands
+#---------------------------------------------
 setup_arch() {
+    echo && echo 'Creating directory for AURs: ~/.aur'
+    mkdir ~/.aur
+
     additional_flatpak_pkgs=(
         org.mozilla.firefox         # Firefox
         org.libreoffice.LibreOffice # LibreOffice Suite
     )
 
     util_pkgs=(
-        bluez       # Bluetooth daemon
-        pipewire    # Audio processor
-        flatpak     # Flatpak
-        posix-user-portability      # POSIX shell and utils
-        perl-rename # Bulk renaming tool
+        xdg-user-dirs           # User directories
+        bluez                   # Bluetooth daemon
+        pipewire                # Audio processor
+        flatpak                 # Flatpak
+        perl-rename             # Bulk renaming tool
+        ttf-firacode-nerd       # FiraCode Nerd Font
+        posix-user-portability  # POSIX shell and utils
     )
 
     desktop_pkgs=(
         hyprland    # Window manager
         hyprpaper   # Wallpaper utility
         waybar      # Task bar
-        swaylock    # Screen locker
         fuzzel      # Application launcher
+        swaylock    # Screen locker
+        dunst       # Notification Deamon
     )
 
     application_pkgs=(
@@ -109,14 +111,25 @@ setup_arch() {
         neovim      # Text editor
         nautilus    # File manager
         steam       # Steam
+        piper       # Logitech Mouse Button and RGB Mapper
+        mangohud    # Game Monitoring HUD
         virtualbox  # VitualBox
     )
 
     echo && echo
     echo 'Installing pacman packages'
-    sudo pacman -Sycuu --noconfirm ${util_pkgs[*]} ${desktop_pkgs[*]} ${application_pkgs[*]}
+    sudo pacman -Sy ${util_pkgs[*]} ${desktop_pkgs[*]} ${application_pkgs[*]}
+
+    echo && echo
+    echo 'Updating and cleaning pacman packages'
+    sudo pacman -Sycuu
+
+    xdg-user-dirs-update
 }
 
+#---------------------------------------------
+# PopOS! specific packages and commands
+#---------------------------------------------
 setup_pop() {
     additional_flatpak_pkgs=()
 
@@ -156,6 +169,9 @@ setup_pop() {
     cd build && cpack -G DEB && sudo dpkg -i nvim-linux64.deb
 }
 
+#---------------------------------------------
+# Flatpak installation commands
+#---------------------------------------------
 flatpak_installs() {
     echo && echo
     echo 'Installing Flatpak packages'

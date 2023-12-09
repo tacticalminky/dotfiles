@@ -3,7 +3,6 @@
 
 !README.md
 !LICENSE
-!.gitignore
 
 !.bashrc
 
@@ -16,6 +15,8 @@
 !.fonts/**
 
 # Config files
+!.config
+
 !.config/kitty
 !.config/kitty/**
 
