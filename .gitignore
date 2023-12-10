@@ -22,3 +22,6 @@
 
 !.config/nvim
 !.config/nvim/**
+
+!.config/hypr
+!.config/hypr/**

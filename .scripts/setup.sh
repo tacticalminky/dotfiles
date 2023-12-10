@@ -89,13 +89,17 @@ setup_arch() {
     )
 
     util_pkgs=(
-        xdg-user-dirs           # User directories
-        bluez                   # Bluetooth daemon
-        pipewire                # Audio processor
-        flatpak                 # Flatpak
-        perl-rename             # Bulk renaming tool
-        ttf-firacode-nerd       # FiraCode Nerd Font
+        man-db                  # Man
+        man-pages               # Man Pages
         posix-user-portability  # POSIX shell and utils
+        xdg-user-dirs           # User directories
+        wl-clipboard            # Wayland copy/paste
+        ttf-firacode-nerd       # FiraCode Nerd Font
+        ttf-liberation          # Liberation Font
+        perl-rename             # Bulk renaming tool
+        pipewire                # Audio processor
+        bluez                   # Bluetooth daemon
+        flatpak                 # Flatpak
     )
 
     desktop_pkgs=(
@@ -105,6 +109,7 @@ setup_arch() {
         fuzzel      # Application launcher
         swaylock    # Screen locker
         dunst       # Notification Deamon
+        xdg-desktop-portal-hyprland # xdg-desktop backend for Hyprland
     )
 
     application_pkgs=(
@@ -112,15 +117,38 @@ setup_arch() {
         neovim      # Text editor
         nautilus    # File manager
         blueman     # Bluetooth manager
-        steam       # Steam
         piper       # Logitech Mouse Button and RGB Mapper
+        steam       # Steam
+        gamescope   # GameScope compositor
         mangohud    # Game Monitoring HUD
         virtualbox  # VitualBox
     )
 
+    dev_pkgs=(
+        npm             # Node and NPM
+        jdk17-openjdk   # OpenJDK Java 17
+        docker          # Docker
+        docker-compose  # Docker Compose
+    )
+
+    optional_dep_pkgs=(
+        pipewire-jack       # JACK replacement w/ pipewire
+        python-pynvim       # Python runtime for Neovim
+        otf-font-awesome    # Font Awesome Icons
+        nvidia-settings     # NVIDIA GPU configuring
+    )
+
     echo && echo
-    echo 'Installing pacman packages'
-    sudo pacman -Sy ${util_pkgs[*]} ${desktop_pkgs[*]} ${application_pkgs[*]}
+    echo 'Installing utility packages'
+    sudo pacman -S ${util_pkgs[*]}
+
+    echo && echo
+    echo 'Installing optional dependency packages'
+    sudo pacman -S --asdeps ${optional_dep_pkgs[*]}
+
+    echo && echo
+    echo 'Installing desktop and application packages'
+    sudo pacman -S ${desktop_pkgs[*]} ${application_pkgs[*]} ${dev_pkgs[*]}
 
     echo && echo
     echo 'Updating pacman packages'
