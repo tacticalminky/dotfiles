@@ -30,6 +30,7 @@ workspace_directories=(
     ~/workspace/blender
     ~/workspace/gimp
     ~/workspace/virtualbox-vms
+    ~/workspace/virtualbox-vms/ISOs
 )
 game_directories=(
     ~/games
@@ -110,6 +111,7 @@ setup_arch() {
         kitty       # Terminal
         neovim      # Text editor
         nautilus    # File manager
+        blueman     # Bluetooth manager
         steam       # Steam
         piper       # Logitech Mouse Button and RGB Mapper
         mangohud    # Game Monitoring HUD
@@ -121,9 +123,15 @@ setup_arch() {
     sudo pacman -Sy ${util_pkgs[*]} ${desktop_pkgs[*]} ${application_pkgs[*]}
 
     echo && echo
-    echo 'Updating and cleaning pacman packages'
-    sudo pacman -Sycuu
+    echo 'Updating pacman packages'
+    sudo pacman -Syuu
 
+    echo && echo
+    echo 'Cleaning pacman packages'
+    sudo pacman -Sc
+
+    echo && echo
+    echo 'Creating user directories'
     xdg-user-dirs-update
 }
 
