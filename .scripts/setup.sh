@@ -57,7 +57,7 @@ common_flatpak_pkgs=(
 
     # Gaming
     com.discordapp.Discord              # Discord
-    net.davidotek.pupgui2               # ProtonUp-Qt
+    net.davidotek.pupgui2               # ProtonUp-Qt (Proton version manager)
     com.heroicgameslauncher.hgl         # Heroic Games Launcher (Epic launcher)
     net.rpcs3.RPCS3                     # RPCS3 (PS3 emulator)
     com.mojang.Minecraft                # Minecraft
@@ -71,8 +71,8 @@ common_flatpak_pkgs=(
 
     # Office
     org.mozilla.Thunderbird             # Thunderbird (email client)
-    us.zoom.Zoom                        # Zoom
-    md.obsidian.Obsidian                # Obsidian (Markdown notes app)
+    us.zoom.Zoom                        # Zoom (scum of the earth)
+    md.obsidian.Obsidian                # Obsidian (markdown notes app)
     com.github.johnfactotum.Foliate     # Foliate (ePub reader)
 )
 
@@ -100,6 +100,8 @@ setup_arch() {
         pipewire                # Audio processor
         bluez                   # Bluetooth daemon
         flatpak                 # Flatpak
+        gtk3                    # GTK3 for kitty
+        gamescope               # GameScope compositor
     )
 
     desktop_pkgs=(
@@ -119,14 +121,15 @@ setup_arch() {
         blueman     # Bluetooth manager
         piper       # Logitech Mouse Button and RGB Mapper
         steam       # Steam
-        gamescope   # GameScope compositor
         mangohud    # Game Monitoring HUD
         virtualbox  # VitualBox
+        gnome-calculator # Calculator
     )
 
     dev_pkgs=(
         npm             # Node and NPM
-        jdk17-openjdk   # OpenJDK Java 17
+        jdk17-openjdk   # Java 17 JDK
+        maven           # Java build tools
         docker          # Docker
         docker-compose  # Docker Compose
     )
@@ -155,12 +158,16 @@ setup_arch() {
     sudo pacman -Syuu
 
     echo && echo
-    echo 'Cleaning pacman packages'
-    sudo pacman -Sc
+    echo 'Removing orphaned packages'
+    sudo pacman -Qtdq | sudo pacman -Rns -
 
     echo && echo
-    echo 'Creating user directories'
-    xdg-user-dirs-update
+    echo 'Cleaning pacman cached packages'
+    sudo pacman -Sc
+
+    # echo && echo
+    # echo 'Creating user directories'
+    # xdg-user-dirs-update
 }
 
 #---------------------------------------------
@@ -176,20 +183,24 @@ setup_pop() {
     echo 'Enabling Nvidia writing to xorg.conf'
     sudo chmod u+x /usr/share/screen-resolution-extra/nvidia-polkit
 
-    echo && echo
-    echo 'Installing APT packages'
     apt_packages=(
         vim             # CLI text editor
-        make            # build tool
+        kitty           # Terminal
+        make            # Build tool
         stacer          # System Optimizer and Monitoring
         python3-pip     # Python Package Manager
         ckb-next        # Corsair Keyboard RGB Driver
+        openjdk-17-jdk  # Java 17 JDK
+        maven           # Java build tool
         piper           # Logitech Mouse Button and RGB Mapper
         steam           # Steam
         mangohud        # Game Monitoring HUD
         code            # Visual Studio Code
         virtualbox      # VirtualBox VM Manager
     )
+
+    echo && echo
+    echo 'Installing APT packages'
     sudo apt install -y ${apt_packages[*]}
 
     echo && echo
