@@ -23,3 +23,6 @@ alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo
 
 # clear screen and scrollback
 alias clear='clear && printf "\e[3J"'
+
+alias full-update="~/.scripts/full-update-ubuntu.sh"
+# alias full-update="~/.scripts/full-update-ubuntu.sh"

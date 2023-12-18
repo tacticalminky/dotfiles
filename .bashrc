@@ -94,7 +94,7 @@ if ! shopt -oq posix; then
     fi
 fi
 
-export PATH="$HOME/bin:$PATH"
+# export PATH="$HOME/bin:$PATH"
 
 if [ -f ~/.cargo/env ]; then
     . ~/.cargo/env
