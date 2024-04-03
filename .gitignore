@@ -23,6 +23,7 @@
 
 !.config/nvim
 !.config/nvim/**
+!.clang-format
 
 !.config/hypr
 !.config/hypr/**

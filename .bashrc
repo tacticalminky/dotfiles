@@ -96,10 +96,12 @@ fi
 
 # export PATH="$HOME/bin:$PATH"
 
+# Set pipenv to reside in project
+export PIPENV_VENV_IN_PROJECT=1
+
 if [ -f ~/.cargo/env ]; then
     . ~/.cargo/env
 fi
-
 
 # Load Angular CLI autocompletion.
 source <(ng completion script)

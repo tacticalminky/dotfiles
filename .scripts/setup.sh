@@ -72,7 +72,7 @@ common_flatpak_pkgs=(
     # Office
     org.mozilla.Thunderbird             # Thunderbird (email client)
     us.zoom.Zoom                        # Zoom (scum of the earth)
-    md.obsidian.Obsidian                # Obsidian (markdown notes app)
+    #md.obsidian.Obsidian                # Obsidian (markdown notes app)
     com.github.johnfactotum.Foliate     # Foliate (ePub reader)
 )
 
@@ -102,6 +102,9 @@ setup_arch() {
         flatpak                 # Flatpak
         gtk3                    # GTK3 for kitty
         gamescope               # GameScope compositor
+        qt5-wayland             # Qt5 Wayland support
+        qt6-wayland             # Qt5 Wayland support
+        polkit-kde-agent        # Pop-up auth agent
     )
 
     desktop_pkgs=(
@@ -109,8 +112,10 @@ setup_arch() {
         hyprpaper   # Wallpaper utility
         waybar      # Task bar
         fuzzel      # Application launcher
+        swayidle    # Idle management daemon
         swaylock    # Screen locker
         dunst       # Notification Deamon
+        greetd-regreet  # Login manager
         xdg-desktop-portal-hyprland # xdg-desktop backend for Hyprland
     )
 
@@ -197,6 +202,7 @@ setup_pop() {
         mangohud        # Game Monitoring HUD
         code            # Visual Studio Code
         virtualbox      # VirtualBox VM Manager
+        ifuse           # Apple iOS files
     )
 
     echo && echo
@@ -210,8 +216,8 @@ setup_pop() {
 
     echo && echo
     echo 'Installing Neovim from source'
-    git clone https://github.com/neovim/neovim
-    cd neovim && make CMAKE_BUILD_TYPE=RelWithDebInfo
+    git clone https://github.com/neovim/neovim .neovim
+    cd .neovim && make CMAKE_BUILD_TYPE=RelWithDebInfo
     git checkout stable
     cd build && cpack -G DEB && sudo dpkg -i nvim-linux64.deb
 }
